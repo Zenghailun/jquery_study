@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .zp {
+            width: 560px;
+            height: 560px;
+            background-image: url(./imgs/bg.png);
+            position: relative;
+        }
+
+        .zp .circle {
+            width: 560px;
+            height: 560px;
+            background-image: url(imgs/bg2.png);
+            position: absolute;
+            left: 0;
+            top: 0;
+            background-position: center;
+            background-repeat: no-repeat;
+            transition: all 3s ease-in-out;
+        }
+
+        .zp .btn {
+            width: 161px;
+            height: 161px;
+            background-image: url(./imgs/btn.png);
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            margin-left: -80.5px;
+            margin-top: -80.5px;
+        }
+
+        .zp .btn::after {
+            content: "";
+            width: 40px;
+            height: 40px;
+            background-image: url(./imgs/point.png);
+            background-position: bottom center;
+            background-repeat: no-repeat;
+            position: absolute;
+            left: 50%;
+            top: -20px;
+            margin: -20px;
+            margin-left: -23px;
+        }
+
+        .zp .circle .item {
+            width: 560px;
+            height: 560px;
+            position: absolute;
+            left: 0;
+            top: 0;
+        }
+
+        .circle .item .content {
+            width: 100px;
+            height: 125px;
+            display: flex;
+            flex-direction: column;
+            margin: 20px auto;
+            color: #fff;
+            font-size: 20px;
+            text-align: center;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .circle .item .content img {
+            width: auto;
+            height: auto;
+            max-height: 60px;
+            margin-top: 10px;
+        }
+
+        .zp .circle .item:nth-child(1) {
+            transform: rotate(22.5deg);
+        }
+
+        .zp .circle .item:nth-child(2) {
+            transform: rotate(67.5deg);
+        }
+
+        .zp .circle .item:nth-child(3) {
+            transform: rotate(112.5deg);
+        }
+
+        .zp .circle .item:nth-child(4) {
+            transform: rotate(157.5deg);
+        }
+
+        .zp .circle .item:nth-child(5) {
+            transform: rotate(202.5deg);
+        }
+
+        .zp .circle .item:nth-child(6) {
+            transform: rotate(247.5deg);
+        }
+
+        .zp .circle .item:nth-child(7) {
+            transform: rotate(292.5deg);
+        }
+
+        .zp .circle .item:nth-child(8) {
+            transform: rotate(337.5deg);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="zp">
+        <div class="circle">
+            <!-- <div class="item">
+                <div class="content">
+                    <div class="title">谢谢惠顾</div>
+                    <img src="imgs/img5.png" alt="">
+                </div>
+            </div> -->
+        </div>
+        <div class="btn">
+
+        </div>
+    </div>
+    <script src="../js/jquery-1.12.4.js"></script>
+    <script>
+        var arr = [{
+                title: "谢谢惠顾",
+                img: "imgs/img5.png",
+                p: 0.1,
+            },
+            {
+                title: "京东10代金券",
+                img: "imgs/img1.png",
+                p: 0.2,
+            },
+            {
+                title: "京东20代金券",
+                img: "imgs/img2.png",
+                p: 0.2,
+            },
+            {
+                title: "京东50代金券",
+                img: "imgs/img3.png",
+                p: 0.1,
+            },
+            {
+                title: "京东100代金券",
+                img: "imgs/img4.png",
+                p: 0.1,
+            },
+
+            {
+                title: "京东200代金券",
+                img: "imgs/img6.png",
+                p: 0.1,
+            },
+            {
+                title: "京东500代金券",
+                img: "imgs/img7.png",
+                p: 0.1,
+            },
+            {
+                title: "大奖IPHONE13",
+                img: "imgs/img8.png",
+                p: 0.1,
+            }
+        ]
+        //当文档解析完毕，执行代码
+        $(function () {
+            arr.forEach((item, i) => {
+                $('.zp .circle').append(`
+                <div class="item">
+                <div class="content">
+                    <div class="title">${item.title}</div>
+                    <img src="${item.img}" alt="">
+                </div>
+                </div>
+                `)
+            })
+        })
+        var luckyNum;
+        $('.zp .circle').on('transitionend', function () {
+            if(luckyNum){
+                alert("您抽中的是: " + arr[luckyNum].title);
+                luckyNum = null;
+            }
+        })
+        $('.zp .btn').click(function () {
+            $('.zp .circle').css({
+                'transform': `rotate(0deg)`,
+                transition: 'none'
+            })
+
+
+            setTimeout(() => {
+                //随机出0-1的数
+                var randomNum = Math.random();
+                var current = 0;
+                luckyNum = 0;
+                for (let i = 0; i < arr.length; i++) {
+                    current += arr[i].p;
+                    if (randomNum < current) {
+                        luckyNum = i;
+                        break;
+                    }
+                }
+
+                var rotateDeg = 360 * 5 - luckyNum * 45 - 22.5 ;
+                $('.zp .circle').css({
+                    transition: 'all 3s ease-in-out',
+                    'transform': `rotate(${rotateDeg}deg)`
+                })
+            }, 0)
+
+
+        })
+    </script>
+</body>
+
+</html>
